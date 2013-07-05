@@ -1,18 +1,24 @@
 {
     "media": [
         {
-            "trackingAdjust": 3,
-            "characterRegex": "[0-9:.A-Za-z\\s]",
-            "defName": "FONT_DIGITAL_16",
+            "characterRegex": "[A-Za-z0-9.:\\s]",
+            "defName": "FONT_DSDIGI_18",
             "type": "font",
-            "file": "fonts/TickingTimebombBB.ttf"
+            "file": "fonts/DS-DIGI.TTF"
         },
         {
-            "trackingAdjust": 3,
-            "characterRegex": "[0-9:.A-Za-z\\s]",
-            "defName": "FONT_DIGITAL_30",
+            "trackingAdjust": 1,
+            "characterRegex": "[A-Za-z0-9.:\\s]",
+            "defName": "FONT_DSDIGIT_18",
             "type": "font",
-            "file": "fonts/TickingTimebombBB.ttf"
+            "file": "fonts/DS-DIGIT.TTF"
+        },
+        {
+            "trackingAdjust": 1,
+            "characterRegex": "[A-Za-z0-9.:\\s]",
+            "defName": "FONT_DSDIGIT_34",
+            "type": "font",
+            "file": "fonts/DS-DIGIT.TTF"
         },
         {
             "defName": "IMAGE_MENU_ICON",

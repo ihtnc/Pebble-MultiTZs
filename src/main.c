@@ -1,8 +1,8 @@
 /** \file
  * Three time zone clock;
  *
- * When it is day, the text and background are white.
- * When it is night, they are black.
+ * When the time is in AM, the text and background are white.
+ * When the time is in PM, they are black.
  *
  * Rather than use text layers, it draws the entire frame once per minute.
  *
@@ -24,7 +24,7 @@
 #define MY_UUID { 0x0A, 0x47, 0x27, 0xEA, 0xFF, 0x19, 0x4B, 0x81, 0xBA, 0xD8, 0x4A, 0x67, 0x00, 0x54, 0x47, 0x26 }
 PBL_APP_INFO(MY_UUID,
              "TimeZones", "ihopethisnamecounts",
-             1, 0, /* App version */
+             1, 1, /* App version */
              RESOURCE_ID_IMAGE_MENU_ICON,
              APP_INFO_WATCH_FACE);
 
@@ -89,7 +89,7 @@ static void timezone_layer_update(Layer *const me, GContext *ctx)
 		string_format_time(buf, sizeof(buf), "%I:%M", &now);
 	}
 	
-	const int night_time = (now.tm_hour > 18 || now.tm_hour < 6);
+	const int is_pm = (now.tm_hour > 12);
 	now.tm_hour = orig_hour;
 	now.tm_min = orig_min;
 	
@@ -97,8 +97,8 @@ static void timezone_layer_update(Layer *const me, GContext *ctx)
 	const int h = me->bounds.size.h;
 	
 	// it is night there, draw in black video
-	graphics_context_set_fill_color(ctx, night_time ? GColorBlack : GColorWhite);
-	graphics_context_set_text_color(ctx, !night_time ? GColorBlack : GColorWhite);
+	graphics_context_set_fill_color(ctx, is_pm ? GColorBlack : GColorWhite);
+	graphics_context_set_text_color(ctx, is_pm ? GColorWhite : GColorBlack);
 	graphics_fill_rect(ctx, GRect(0, 0, w, h), 0, 0);
 	
 	graphics_text_draw(ctx, tz->name, font_thin, GRect(0, 0, w, h/3), GTextOverflowModeTrailingEllipsis, GTextAlignmentCenter, NULL);
@@ -123,10 +123,9 @@ static void handle_init(AppContextRef ctx)
 	window_set_background_color(&window, GColorBlack);
 
 	resource_init_current_app(&APP_RESOURCES);
-
 	
-    font_thin = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_DIGITAL_16));
-    font_thick = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_DIGITAL_30));
+    font_thin = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_DSDIGI_18));
+    font_thick = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_DSDIGIT_34));
 
     for (int i = 0 ; i < NUM_TIMEZONES ; i++)
 	{
